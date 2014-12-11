@@ -8,6 +8,6 @@ app.get('/', function (req, res) {
     res.send('hi');
 });
 
-app.get('/untappd', require('./controllers/untappd.js'));
+app.use('/untappd', require('./controllers/untappd.js'));
 
 app.listen(port);

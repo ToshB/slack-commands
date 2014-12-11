@@ -55,12 +55,23 @@ function findBeer(query, callback) {
     });
 }
 
-module.exports = function () {
-    router.get('/', function (req, res) {
-        var user = req.query.user_name,
-            query = req.query.text;
+router.get('/', function (req, res) {
+    var user = req.query.user_name,
+        query = req.query.text;
 
-        findBeer(query, function (error, result) {
+    findBeer(query, function (error, result) {
+        if (error) {
+            console.error(error);
+            notify(error.message);
+            res.send('Sorry, an error occurred');
+            return;
+        }
+
+        if (!result) {
+            res.send('No info found for ' + query);
+        }
+
+        getBeerInfo(result.beer.bid, function (error, result) {
             if (error) {
                 console.error(error);
                 notify(error.message);
@@ -68,25 +79,12 @@ module.exports = function () {
                 return;
             }
 
-            if (!result) {
-                res.send('No info found for ' + query);
-            }
-
-            getBeerInfo(result.beer.bid, function (error, result) {
-                if (error) {
-                    console.error(error);
-                    notify(error.message);
-                    res.send('Sorry, an error occurred');
-                    return;
-                }
-
-                var str = result.beer_name + ' (' + result.beer_style + ') by ' + result.brewery.brewery_name + ' - Rating: ' + result.rating_score + ' (' + result.rating_count + ' votes)';
-                notify(user + ' requested: ' + query + '\n'+str);
-                res.send(str);
-            });
+            var str = result.beer_name + ' (' + result.beer_style + ') by ' + result.brewery.brewery_name + ' - Rating: ' + result.rating_score + ' (' + result.rating_count + ' votes)';
+            notify(user + ' requested: ' + query + '\n' + str);
+            res.send(str);
         });
-
     });
 
-    return router;
-};
+});
+
+module.exports = router;
