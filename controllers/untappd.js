@@ -25,7 +25,7 @@ function notify(text) {
 }
 
 function getBeerInfo(bid, callback) {
-    var url = 'http://api.untappd.com/v4/beer/info/' + bid + '?client_id=' + clientId + '&client_secret=' + clientSecret;
+    var url = 'https://api.untappd.com/v4/beer/info/' + bid + '?client_id=' + clientId + '&client_secret=' + clientSecret;
     console.log(url);
     request.get(url, function (err, result, body) {
         if (err) {
