@@ -40,7 +40,7 @@ function getBeerInfo(bid, callback) {
 
 function findBeer(query, callback) {
     var encoded = encodeURIComponent(query),
-        url = 'http://api.untappd.com/v4/search/beer?q=' + encoded + '&client_id=' + clientId + '&client_secret=' + clientSecret;
+        url = 'https://api.untappd.com/v4/search/beer?q=' + encoded + '&client_id=' + clientId + '&client_secret=' + clientSecret;
 
     console.log(url);
 
